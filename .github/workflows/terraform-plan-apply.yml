@@ -1,7 +1,10 @@
 name: Terraform
 
 on:
-  workflow_call:
+  workflow_call: {}
+
+  issued_comment:
+    types: [created]
 
 jobs:
   
