@@ -5,7 +5,6 @@ on:
     secrets:
       INFRACOST_API_KEY:
         required: true
-        type: string
         description: Infracost API KEY of organization
 
 jobs:
