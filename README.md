@@ -12,10 +12,10 @@ This repository contains a collection of GitHub Actions, sources, and scripts th
 The main purpose of this repository is to provide a set of actions and scripts that can be utilized in other GitHub repositories, promoting efficiency and standardization in CI/CD workflows.
 
 ## Repository Structure
-
-- **Actions**: Code and configurations for each GitHub Action.
-- **Scripts**: Auxiliary scripts that can be used by these actions.
-- **Examples**: Sample workflows demonstrating how to use the actions.
+> [!NOTE]
+> - **Actions**: Code and configurations for each GitHub Action.
+> - **Scripts**: Auxiliary scripts that can be used by these actions.
+> - **Examples**: Sample workflows demonstrating how to use the actions.
 
 ## How to Use
 
@@ -39,17 +39,20 @@ Contributions are welcome! Feel free to open an issue or submit a pull request. 
 - Update documentation as necessary.
 
 ## License
-This project is licensed under the MIT License.
+> [!CAUTION]
+> This project is licensed under the MIT License.
 
 ## Contact
-For any inquiries or suggestions, please reach out via GitHub [issues](https://github.com/davidlimacardoso/github-actions/issues).
+> [!IMPORTANT]
+> For any inquiries or suggestions, please reach out via GitHub [issues](https://github.com/davidlimacardoso/github-actions/issues).
 
 ### Badges
 
-- **Build Status**: You can use a badge to indicate the build status of your actions.
-- **License**: Indicates the license type.
-- **Contributors**: Shows the number of contributors.
-- **Issues**: Displays the number of open issues.
+> [!NOTE]
+> - **Build Status**: You can use a badge to indicate the build status of your actions.
+> - **License**: Indicates the license type.
+> - **Contributors**: Shows the number of contributors.
+> - **Issues**: Displays the number of open issues.
 
 ### Customization
 
