@@ -49,4 +49,4 @@ jobs:
           npx semantic-release
           VERSION=$(cat VERSION.txt)
           echo "Resolved version: $VERSION"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "release_version=$VERSION" >> $GITHUB_OUTPUT
