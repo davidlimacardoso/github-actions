@@ -1,0 +1,54 @@
+name: Semantic Release
+
+on:
+  workflow_call:
+    outputs:
+      release_version: 
+        description: 'The version of the release'
+        value: ${{ jobs.semantic-release.outputs.release_version }}
+jobs:
+  semantic-release:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    name: Pre Semantic Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+          
+      - name: Prepare pre release semantic file
+        run: |
+          echo "plugins:
+            - \"@semantic-release/commit-analyzer\"
+          
+          branches:
+            - main
+            - name: develop*
+              prerelease: '\${name.replace(/^dev\\//g, \"dev-\")}'" > .releaserc.yml
+          
+      - name: Preview semantic-release tag
+        uses: cycjimmy/semantic-release-action@v2
+        id: pre_release
+        with:
+          semantic_version: 17
+          extra_plugins: |
+            @semantic-release/changelog@5
+            @semantic-release/git@9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Show Pre Release Info
+        if:  github.ref == 'refs/heads/develop'
+        run: |
+          echo "release_version=${{ steps.pre_release.outputs.new_release_version }}" >> $GITHUB_OUTPUT
+       
