@@ -56,7 +56,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Show Pre Release Info
-        if: steps.semantic.outputs.new_release_published == 'true'
+        if: steps.pre_release.outputs.new_release_version == 'true'
         run: |
           echo "release_version=${{ steps.pre_release.outputs.new_release_version }}" >> $GITHUB_OUTPUT
           echo "release_major_version=${{ steps.pre_release.outputs.new_release_major_version }}" >> $GITHUB_OUTPUT
