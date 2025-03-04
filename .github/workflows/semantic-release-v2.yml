@@ -49,8 +49,14 @@ jobs:
       
       - name: Preview semantic-release
         if: ${{ inputs.pre_release }} != false
-        run: |
-          unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci
+        uses: cycjimmy/semantic-release-action@v2
+        id: pre_release
+        with:
+          semantic_version: 17
+          extra_plugins: |
+            @semantic-release/changelog@5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Semantic Release
         if: ${{ inputs.pre_release }} == false
