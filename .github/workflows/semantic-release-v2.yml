@@ -41,9 +41,11 @@ jobs:
           
       - name: Prepare pre release semantic file
         if: github.ref == 'refs/heads/develop'
-        run: sed -i '/@semantic-release\/release-notes-generator/d; /@semantic-release\/changelog/d; /@semantic-release\/github/d' .releaserc.yml
-
-      - name: Preview semantic-release
+        run: |
+          sed -i '/@semantic-release\/release-notes-generator/d; /@semantic-release\/changelog/d; /@semantic-release\/github/d' .releaserc.yml
+          cat .releaserc.yml
+          
+      - name: Preview semantic-release tag
         if: github.ref == 'refs/heads/develop'
         uses: cycjimmy/semantic-release-action@v2
         id: pre_release
