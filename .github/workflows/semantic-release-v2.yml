@@ -38,7 +38,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "lts/*"
-      
+          
+      - name: Prepare prerelease semantic
+        if: github.ref != 'refs/heads/main'
+        run: mv .releaserc.prerelease.yaml .releaserc.yaml
+        
       - name: Preview semantic-release
         if: github.ref == 'refs/heads/develop'
         uses: cycjimmy/semantic-release-action@v2
