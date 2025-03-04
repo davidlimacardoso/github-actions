@@ -23,6 +23,9 @@ on:
       pre_release_version: 
         description: 'The version of the release'
         value: ${{ jobs.semantic-release.outputs.release_version }}
+env:
+  PRE_RELEASE: ${{ inputs.pre_release }}
+
 jobs:
   semantic-release:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
@@ -48,7 +51,7 @@ jobs:
         run: mv .releaserc.prerelease.yaml .releaserc.yaml
       
       - name: Preview semantic-release
-        if: ${{ inputs.pre_release }} != false
+        if: ${{ env.PRE_RELEASE }} != false
         uses: cycjimmy/semantic-release-action@v2
         id: pre_release
         with:
@@ -59,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Semantic Release
-        if: ${{ inputs.pre_release }} == false
+        if: ${{ env.PRE_RELEASE }} == false
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
