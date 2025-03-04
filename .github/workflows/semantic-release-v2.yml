@@ -42,7 +42,11 @@ jobs:
       - name: Prepare pre release semantic file
         if: github.ref == 'refs/heads/develop'
         run: |
-          sed -i '/@semantic-release\/release-notes-generator/d; /@semantic-release\/changelog/d; /@semantic-release\/github/d' .releaserc.yml
+          sed -i '/@semantic-release\/git/d; /@semantic-release\/release-notes-generator/d; /@semantic-release\/changelog/d; /@semantic-release\/github/d' .releaserc.yml
+          sed -i '/branches:/,/^[^ ]/ { 
+              /branches:/!d 
+          } 
+          /branches:/a \  - name: develop*\n    prerelease: '\''${name.replace(/^dev\//g, "dev-")}'\'' ' .releaserc.yaml
           cat .releaserc.yml
           
       - name: Preview semantic-release tag
