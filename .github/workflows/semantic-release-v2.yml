@@ -46,7 +46,7 @@ jobs:
           sed -i '/branches:/,/^[^ ]/ { 
               /branches:/!d 
           } 
-          /branches:/a \  - name: develop*\n    prerelease: '\''${name.replace(/^dev\//g, "dev-")}'\'' ' .releaserc.yaml
+          /branches:/a \  - name: develop*\n    prerelease: '\''${name.replace(/^dev\//g, "dev-")}'\'' ' .releaserc.yml
           cat .releaserc.yml
           
       - name: Preview semantic-release tag
