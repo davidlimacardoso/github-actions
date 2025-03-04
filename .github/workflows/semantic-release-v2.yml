@@ -5,8 +5,13 @@ on:
     branches:
       - main
       - develop
-
+  
   workflow_call:
+    inputs:
+      pre_release:
+        default: false
+        type: string
+        required: false
     outputs:
       release_version: 
         description: 'The version of the release'
@@ -46,8 +51,14 @@ jobs:
       - name: Prepare prerelease semantic
         if: github.ref != 'refs/heads/main'
         run: mv .releaserc.prerelease.yaml .releaserc.yaml
-
+      
+      - name: Preview semantic-release
+        if: pre_release != false
+        run: |
+          unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci
+        
       - name: Semantic Release
+        if: pre_release == false
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
