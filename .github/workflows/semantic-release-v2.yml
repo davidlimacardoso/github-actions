@@ -39,10 +39,10 @@ jobs:
         with:
           node-version: "lts/*"
           
-      - name: Prepare prerelease semantic
-        if: github.ref != 'refs/heads/main'
-        run: mv .releaserc.prerelease.yaml .releaserc.yaml
-        
+      - name: Prepare pre release semantic file
+        if: github.ref == 'refs/heads/develop'
+        run: sed -i '/@semantic-release\/release-notes-generator/d; /@semantic-release\/changelog/d; /@semantic-release\/github/d' .releaserc.yaml
+
       - name: Preview semantic-release
         if: github.ref == 'refs/heads/develop'
         uses: cycjimmy/semantic-release-action@v2
@@ -63,6 +63,9 @@ jobs:
           echo "release_minor_version=${{ steps.pre_release.outputs.new_release_minor_version }}" >> $GITHUB_OUTPUT
           echo "release_patch_version=${{ steps.pre_release.outputs.new_release_patch_version }}" >> $GITHUB_OUTPUT
 
+      - name: Prepare prerelease semantic
+        if: github.ref != 'refs/heads/main'
+        run: mv .releaserc.prerelease.yaml .releaserc.yaml
         
       - name: Semantic Release
         if: github.ref == 'refs/heads/main'
