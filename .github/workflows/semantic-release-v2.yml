@@ -43,10 +43,6 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         run: |
           sed -i '/@semantic-release\/git/d; /@semantic-release\/release-notes-generator/d; /@semantic-release\/changelog/d; /@semantic-release\/github/d' .releaserc.yml
-          sed -i '/branches:/,/^[^ ]/ { 
-              /branches:/!d 
-          } 
-          /branches:/a \  - name: develop*\n    prerelease: '\''${name.replace(/^dev\\//g, "dev-")}'\'' ' .releaserc.yml
           cat .releaserc.yml
           
       - name: Preview semantic-release tag
@@ -70,7 +66,7 @@ jobs:
           echo "release_patch_version=${{ steps.pre_release.outputs.new_release_patch_version }}" >> $GITHUB_OUTPUT
 
       - name: Prepare prerelease semantic
-        if: github.ref != 'refs/heads/main'
+        if: github.ref == 'refs/heads/develop'
         run: mv .releaserc.prerelease.yaml .releaserc.yaml
         
       - name: Semantic Release
