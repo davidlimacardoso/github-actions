@@ -38,13 +38,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "lts/*"
-          
-      - name: Prepare pre release semantic file
-        if: github.ref == 'refs/heads/develop'
-        run: |
-          sed -i '/@semantic-release\/git/d; /@semantic-release\/release-notes-generator/d; /@semantic-release\/changelog/d; /@semantic-release\/github/d' .releaserc.yml
-          sed -i '/branches:/a \  - name: develop*\n    prerelease: '\''${name.replace(/^dev\\//g, "dev-")}'\'' ' .releaserc.yml
-          cat .releaserc.yml
 
       - name: Prepare prerelease semantic
         if: github.ref == 'refs/heads/develop'
@@ -65,7 +58,6 @@ jobs:
       - name: Show Release Info
         if: steps.semantic.outputs.new_release_published == 'true'
         run: |
-          echo "release_version=${{ steps.semantic.outputs.new_release_version }}" >> $GITHUB_OUTPUT
-          echo "release_major_version=${{ steps.semantic.outputs.new_release_major_version }}" >> $GITHUB_OUTPUT
-          echo "release_minor_version=${{ steps.semantic.outputs.new_release_minor_version }}" >> $GITHUB_OUTPUT
-          echo "release_patch_version=${{ steps.semantic.outputs.new_release_patch_version }}" >> $GITHUB_OUTPUT
+          VERSION=${{ steps.semantic.outputs.new_release_version }}
+          echo "Resolved version: $VERSION"
+          echo "release_version=$VERSION" >> $GITHUB_OUTPUT
