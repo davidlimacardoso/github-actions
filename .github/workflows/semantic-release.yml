@@ -28,6 +28,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Prepare prerelease semantic
+        if: github.ref == 'refs/heads/develop'
+        run: mv .releaserc.prerelease.yaml .releaserc.yaml
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
