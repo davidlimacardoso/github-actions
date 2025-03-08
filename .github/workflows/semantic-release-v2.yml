@@ -45,33 +45,12 @@ jobs:
           sed -i '/@semantic-release\/git/d; /@semantic-release\/release-notes-generator/d; /@semantic-release\/changelog/d; /@semantic-release\/github/d' .releaserc.yml
           sed -i '/branches:/a \  - name: develop*\n    prerelease: '\''${name.replace(/^dev\\//g, "dev-")}'\'' ' .releaserc.yml
           cat .releaserc.yml
-          
-      - name: Preview semantic-release tag
-        if: github.ref == 'refs/heads/develop'
-        uses: cycjimmy/semantic-release-action@v2
-        id: pre_release
-        with:
-          semantic_version: 17
-          extra_plugins: |
-            @semantic-release/changelog@5
-            @semantic-release/git@9
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Show Pre Release Info
-        if:  github.ref == 'refs/heads/develop'
-        run: |
-          echo "release_version=${{ steps.pre_release.outputs.new_release_version }}" >> $GITHUB_OUTPUT
-          echo "release_major_version=${{ steps.pre_release.outputs.new_release_major_version }}" >> $GITHUB_OUTPUT
-          echo "release_minor_version=${{ steps.pre_release.outputs.new_release_minor_version }}" >> $GITHUB_OUTPUT
-          echo "release_patch_version=${{ steps.pre_release.outputs.new_release_patch_version }}" >> $GITHUB_OUTPUT
 
       - name: Prepare prerelease semantic
         if: github.ref == 'refs/heads/develop'
         run: mv .releaserc.prerelease.yaml .releaserc.yaml
         
       - name: Semantic Release
-        if: github.ref == 'refs/heads/main'
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
