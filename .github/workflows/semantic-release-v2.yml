@@ -6,19 +6,6 @@ on:
       release_version: 
         description: 'The version of the release'
         value: ${{ jobs.semantic-release.outputs.release_version }}
-      release_major_version:
-        description: 'The major version of the release'
-        value: ${{ jobs.semantic-release.outputs.release_major_version }}
-      release_minor_version:
-        description: 'The minor version of the release'
-        value: ${{ jobs.semantic-release.outputs.release_minor_version }}
-      release_patch_version:
-        description: 'The patch version of the release'
-        value: ${{ jobs.semantic-release.outputs.release_patch_version }}
-      pre_release_version: 
-        description: 'The version of the release'
-        value: ${{ jobs.semantic-release.outputs.release_version }}
-
 jobs:
   semantic-release:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
@@ -59,6 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Show Release Info
+        id: release
         if: steps.semantic.outputs.new_release_published == 'true'
         run: |
           VERSION=${{ steps.semantic.outputs.new_release_version }}
