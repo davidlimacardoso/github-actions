@@ -27,20 +27,22 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with: 
+          repository: davidlimacardoso/gitops-apps-argocd
+          ref: main
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: GitHub Bot Authentication
         run: |
           git config --global user.email "github-actions[bot]@davidlimacardoso.com"
           git config --global user.name "github-actions[bot]"
-          git config --global credential.helper cache
           
       - name: Clone edit and commit changes
         run: |
-          git clone https://${{ secrets.GH_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git &&\
           ls -la &&\
           cd gitops-apps-argocd/apps/helm/simple-python-application
           sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
           cat dev.yaml &&\
           git add . &&\
-          git commit -am "Update application image tag to $NEW_TAG" &&\
-          git push origin main
+          git commit -m "Update application image tag to $NEW_TAG" &&\
+          git push origin
