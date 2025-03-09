@@ -35,6 +35,10 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
+      - name: Debug SSH Key (Remove after debugging)
+        run: |
+          cat ~/.ssh/id_rsa
+
       - name: GitHub Bot Authentication
         run: |
           git config --global user.email "github-actions[bot]@davidlimacardoso.com"
