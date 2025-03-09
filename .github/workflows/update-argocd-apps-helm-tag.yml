@@ -28,17 +28,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-      - name: Debug SSH Key (Remove after debugging)
-        run: |
-          cat ~/.ssh/id_rsa
-
       - name: GitHub Bot Authentication
         run: |
           git config --global user.email "github-actions[bot]@davidlimacardoso.com"
@@ -51,6 +40,7 @@ jobs:
 
       - name: Update Docker image tag in dev.yaml
         run: |
+          ls -la
           # Atualiza a tag no arquivo dev.yaml
           sed -i "s/tag: .*/tag: $NEW_TAG/" ${{env.ENVIRONMENT}}.yaml
 
