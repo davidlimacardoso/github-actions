@@ -36,7 +36,7 @@ jobs:
           
       - name: Clone edit and commit changes
         run: |
-          git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git &&\
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git &&\
           ls -la &&\
           cd gitops-apps-argocd/apps/helm/simple-python-application
           sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
