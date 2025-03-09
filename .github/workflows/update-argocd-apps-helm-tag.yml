@@ -31,18 +31,14 @@ jobs:
           repository: davidlimacardoso/gitops-apps-argocd
           ref: main
           token: ${{ secrets.GH_TOKEN }}
-
-      - name: GitHub Bot Authentication
-        run: |
-          git config --global user.email "github-actions[bot]@davidlimacardoso.com"
-          git config --global user.name "github-actions[bot]"
-          
-      - name: Clone edit and commit changes
-        run: |
-          ls -la &&\
-          cd gitops-apps-argocd/apps/helm/simple-python-application
-          sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
-          cat dev.yaml &&\
-          git add . &&\
-          git commit -m "Update application image tag to $NEW_TAG" &&\
-          git push origin
+          path: apps/helm/${{ env.PROJECT_NAME }}
+          run: |
+            git config --global user.email "github-actions[bot]@davidlimacardoso.com"
+            git config --global user.name "github-actions[bot]"
+            ls -la &&\
+            sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
+            cat dev.yaml &&\
+            git add . &&\
+            git commit -m "Update application image tag to $NEW_TAG" &&\
+            git push origin/main
+      
