@@ -30,7 +30,7 @@ jobs:
         
       - name: GitHub Bot Authentication
         run: |
-          git config --global user.email "github-actions[bot]@davidlimacardoso.com"
+          git config --global user.email "github-actions[bot]@davidlimacardoso"
           git config --global user.name "github-actions[bot]"
           git config --global credential.helper cache
           
@@ -42,5 +42,5 @@ jobs:
           sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
           cat dev.yaml &&\
           git add . &&\
-          git commit -am "Update application image tag to $NEW_TAG" &&\
-          git push --set-upstream origin main
+          git commit -m "Update application image tag to $NEW_TAG" &&\
+          git push origin main
