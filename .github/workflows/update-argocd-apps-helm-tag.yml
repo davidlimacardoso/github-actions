@@ -36,10 +36,10 @@ jobs:
       - name: Setup target remote
         run: |
           git clone https://${{ secrets.GH_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git
-          cd gitops-apps-argocd/apps/helm/${{ env.PROJECT_NAME }}
 
       - name: Update Docker image tag in dev.yaml
         run: |
+          cd gitops-apps-argocd/apps/helm/${{ env.PROJECT_NAME }}
           ls -la
           # Atualiza a tag no arquivo dev.yaml
           sed -i "s/tag: .*/tag: $NEW_TAG/" ${{env.ENVIRONMENT}}.yaml
