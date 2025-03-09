@@ -37,9 +37,9 @@ jobs:
         run: |
           git clone https://${{ secrets.GH_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git &&\
           ls -la &&\
-          sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" gitops-apps-argocd/apps/helm/simple-python-application/dev.yaml &&\
-          cat gitops-apps-argocd/apps/helm/simple-python-application/dev.yaml &&\
-          
-          git add apps/helm/${{ env.PROJECT_NAME }}/${{env.ENVIRONMENT}}.yaml &&\
+          cd gitops-apps-argocd/apps/helm/simple-python-application
+          sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
+          cat dev.yaml &&\
+          git add . &&\
           git commit -m "Update application image tag to $TAG" &&\
           git push https://${{ secrets.GH_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git
