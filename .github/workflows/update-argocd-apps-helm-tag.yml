@@ -36,11 +36,11 @@ jobs:
           
       - name: Clone edit and commit changes
         run: |
-          git clone https://${{ env.PAT_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git &&\
-          ls -la &&\
+          git clone https://${{ env.PAT_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git
+          ls -la
           cd gitops-apps-argocd/apps/helm/simple-python-application
-          sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
-          cat dev.yaml &&\
-          git add . &&\
-          git commit -m "Update application image tag to $NEW_TAG" &&\
+          sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml
+          cat dev.yaml
+          git add .
+          git commit -m "Update application image tag to $NEW_TAG"
           git push origin main
