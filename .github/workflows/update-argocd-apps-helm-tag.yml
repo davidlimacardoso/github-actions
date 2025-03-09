@@ -39,10 +39,10 @@ jobs:
 
       - name: Update Docker image tag in dev.yaml
         run: |
-          cd gitops-apps-argocd/apps/helm/${{ env.PROJECT_NAME }}
           ls -la
-          # Atualiza a tag no arquivo dev.yaml
-          sed -i "s/tag: .*/tag: $NEW_TAG/" ${{env.ENVIRONMENT}}.yaml
+          cd gitops-apps-argocd/apps/helm/simple-python-application &&\
+          sed -i "s/tag: .*/tag: test4/" dev.yaml &&\
+          cat dev.yaml
 
       - name: Commit changes
         run: |
