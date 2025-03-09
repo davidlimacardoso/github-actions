@@ -43,4 +43,4 @@ jobs:
           cat dev.yaml &&\
           git add . &&\
           git commit -am "Update application image tag to $NEW_TAG" &&\
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git main
+          git push origin main
