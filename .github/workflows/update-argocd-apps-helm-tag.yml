@@ -20,6 +20,7 @@ env:
   PROJECT_NAME: ${{ inputs.project_name }}
   ENVIRONMENT: ${{ inputs.environment }}
   NEW_TAG: ${{ inputs.new_tag }}
+  PAT_TOKEN: ${{ secrets.GH_TOKEN }}
 
 jobs:
   commit-argocd-sync:
@@ -36,7 +37,7 @@ jobs:
           
       - name: Clone edit and commit changes
         run: |
-          git clone https://${{ secrets.GH_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git &&\
+          git clone https://${{ env.PAT_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git &&\
           ls -la &&\
           cd gitops-apps-argocd/apps/helm/simple-python-application
           sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
