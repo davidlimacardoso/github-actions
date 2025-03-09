@@ -1,0 +1,57 @@
+name: Deploy App Tag Helm On Argo CD
+
+on:
+  workflow_call:
+    inputs:
+      new_tag:
+        type: string
+        required: true
+        description: Repository Image Tag application to update on Helm Argo CD
+      environment:
+        type: string
+        required: true
+        description: Enviroment (prod, stg or dev) to set up ENV.yaml variables Helm
+      project_name:
+        type: string
+        required: true
+        description: Repository dir of the application Helm chart, that will be used to update tag on ENV.yaml
+
+env:
+  PROJECT_NAME: ${{ inputs.project_name }}
+  ENVIRONMENT: ${{ inputs.environment }}
+  NEW_TAG: ${{ inputs.new_tag }}
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: GitHub Bot Authentication
+        run: |
+          git config --global user.email "github-actions[bot]@davidlimacardoso.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Setup target remote
+        run: |
+          git clone "git@github.com:davidlimacardoso/gitops-apps-argocd.git"
+          cd gitops-apps-argocd/apps/helm/${{ env.PROJECT_NAME }}
+
+      - name: Update Docker image tag in dev.yaml
+        run: |
+          # Atualiza a tag no arquivo dev.yaml
+          sed -i "s/tag: .*/tag: $NEW_TAG/" ${{env.ENVIRONMENT}}.yaml
+
+      - name: Commit changes
+        run: |
+          git add apps/helm/${{ env.PROJECT_NAME }}/${{env.ENVIRONMENT}}.yaml
+          git commit -m "Update application image tag to $TAG"
+          git push origin ${{ github.ref }}
