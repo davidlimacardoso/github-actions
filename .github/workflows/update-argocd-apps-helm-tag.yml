@@ -30,7 +30,7 @@ jobs:
         with: 
           repository: davidlimacardoso/gitops-apps-argocd
           ref: main
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: apps/helm/${{ env.PROJECT_NAME }}
           run: |
             git config --global user.email "github-actions[bot]@davidlimacardoso.com"
