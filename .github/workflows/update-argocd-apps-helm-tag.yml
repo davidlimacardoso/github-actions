@@ -33,12 +33,9 @@ jobs:
           git config --global user.email "github-actions[bot]@davidlimacardoso.com"
           git config --global user.name "github-actions[bot]"
 
-      - name: Setup target remote
+      - name: Clone edit and commit changes
         run: |
           git clone https://${{ secrets.GH_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git
-
-      - name: Commit changes
-        run: |
           ls -la
           cd gitops-apps-argocd/apps/helm/simple-python-application &&\
           sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
