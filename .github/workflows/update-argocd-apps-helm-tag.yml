@@ -41,11 +41,12 @@ jobs:
         run: |
           ls -la
           cd gitops-apps-argocd/apps/helm/simple-python-application &&\
-          sed -i "s/tag: .*/tag: test4/" dev.yaml &&\
+          sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
           cat dev.yaml
 
       - name: Commit changes
         run: |
+          git status
           git add apps/helm/${{ env.PROJECT_NAME }}/${{env.ENVIRONMENT}}.yaml
           git commit -m "Update application image tag to $TAG"
           git push https://${{ secrets.GH_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git
