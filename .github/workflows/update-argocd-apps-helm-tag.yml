@@ -15,12 +15,15 @@ on:
         type: string
         required: true
         description: Repository dir of the application Helm chart, that will be used to update tag on ENV.yaml
-
+      github_pat:
+        type: string
+        required: true
+        description: GitHub Personal Private Token with repository commit permissions 
 env:
   PROJECT_NAME: ${{ inputs.project_name }}
   ENVIRONMENT: ${{ inputs.environment }}
   NEW_TAG: ${{ inputs.new_tag }}
-  PAT_TOKEN: ${{ secrets.GH_TOKEN }}
+  PAT_TOKEN: ${{ inputs.github_pat }}
 
 jobs:
   commit-argocd-sync:
