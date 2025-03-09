@@ -22,7 +22,7 @@ env:
   NEW_TAG: ${{ inputs.new_tag }}
 
 jobs:
-  commit:
+  commit-argocd-sync:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -37,16 +37,13 @@ jobs:
         run: |
           git clone https://${{ secrets.GH_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git
 
-      - name: Update Docker image tag in dev.yaml
+      - name: Commit changes
         run: |
           ls -la
           cd gitops-apps-argocd/apps/helm/simple-python-application &&\
           sed -i "s/tag: .*/tag: ${{ env.NEW_TAG }}/" dev.yaml &&\
           cat dev.yaml
-
-      - name: Commit changes
-        run: |
-          git status
+          
           git add apps/helm/${{ env.PROJECT_NAME }}/${{env.ENVIRONMENT}}.yaml
           git commit -m "Update application image tag to $TAG"
           git push https://${{ secrets.GH_TOKEN }}@github.com/davidlimacardoso/gitops-apps-argocd.git
